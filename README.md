@@ -1,20 +1,84 @@
-# kube-init
+##运行步骤
 
-Easiest way to deploy a Kubernetes Cluster to learn Kubernetes
+**1. 安装Docker**
 
-### Deploy the Cluster
+参考: [https://docs.docker.com/](https://docs.docker.com/)
 
-1. Create a Ubuntu 64 Server/VM from your favourite cloud provider
-2. Then apply: `wget -qO- https://git.io/veKlu | sudo sh`
-3. Now you've a standalone Kubernetes cluster running inside your server
+**2. 运行Kubernetes集群**
 
-### Configure Network Access (optional)
-Now we need to configure your local machine to access the Kubernetes network.
+```sh
+git clone git@github.com:kiwenlau/kube-init.git
+cd kube-init/
+sudo ./kube-init.sh
+```
 
-1. Let's create a SOCKS proxy server with this command: `ssh -D 8082 root@your-server-ip`
-2. Then configure your browser to use the above SOCKS proxy with `port=8082` and `host=localhost`
-3. Now, you can access IPs assigned by kubernetes directly from your browser
+**3. 测试kubernetes集群**
 
-### Start Learning
-1. Starting Learning Kuberneted from here: https://meteorhacks.com/learn-kubernetes-the-future-of-the-cloud.html
-2. Then you can choose any tutorial you like and start playing with kubernetes
+```
+kubectl create -f pod-nginx.yaml
+```
+
+查看pod
+
+```
+kubectl get pod
+```
+
+当nginx pod的状态由pending变为running时，通过kubectl describe命令获取IP
+
+```
+kubectl describe pods/nginx
+```
+
+输出，可知niginx pod的IP为**172.17.0.4**
+
+```
+Name: nginx
+Image(s): nginx
+Node: 127.0.0.1/127.0.0.1
+Labels: <none>
+Status: Running
+IP: 172.17.0.4
+```
+
+测试nginx
+
+```
+curl 172.17.0.4
+```
+
+输出
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+```
+
+
+##参考
+1. [Kubernetes: The Future of Cloud Hosting](https://meteorhacks.com/learn-kubernetes-the-future-of-the-cloud)
+2. [meteorhacks/hyperkube](https://github.com/meteorhacks/hyperkube)
+3. [meteorhacks/kube-init](https://github.com/meteorhacks/kube-init)
