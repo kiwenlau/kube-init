@@ -12,7 +12,7 @@ if [ $ARCHI != "x86_64" ]; then
 fi
 
 # Install Docker 
-wget -qO- https://get.docker.com/ | sh
+#wget -qO- https://get.docker.com/ | sh
 
 ## ETCD
 docker run \
