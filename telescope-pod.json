@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "telescope-pod"
+  },
+  "kind": "Pod",
+  "apiVersion": "v1beta3",
+  "spec": {
+    "containers": [
+      {
+        "name": "mongo",
+        "image": "mongo",
+        "command": ["mongod", "--smallfiles", "--nojournal"],
+        "ports": [{
+          "containerPort": 27017
+        }]
+      },
+      {
+        "name": "telescope",
+        "image": "meteorhacks/telescope",
+        "ports": [{
+          "containerPort": 80
+        }],
+        "env": [
+          {"name": "ROOT_URL", "value": "http://mydomain.com"},
+          {"name": "MONGO_URL", "value": "mongodb://localhost:27017/app"}
+        ]
+      }
+    ]
+  }
+}
