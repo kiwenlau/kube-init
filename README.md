@@ -7,8 +7,9 @@
 **2. 运行Kubernetes集群**
 
 ```sh
-git clone git@github.com:kiwenlau/kube-init.git
+git clone https://github.com/kiwenlau/kube-init
 cd kube-init/
+chmod +x kube-init.sh
 sudo ./kube-init.sh
 ```
 
